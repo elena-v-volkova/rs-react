@@ -1,7 +1,7 @@
-import "./App.css";
-import Button from "./components/button/button";
-import Card from "./components/card/card";
-import Search from "./components/search/search";
+import './App.css';
+import Button from './components/button/button';
+import Card from './components/card/card';
+import Search from './components/search/search';
 
 function App() {
   return (
