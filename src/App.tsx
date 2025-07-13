@@ -8,6 +8,7 @@ import { loadSearchValue, saveSearchValue } from './utils/storage';
 interface AppState {
   searchValue: string;
   triggerSearch: boolean;
+  throwError: boolean;
 }
 
 class App extends React.Component<Record<string, never>, AppState> {
@@ -16,6 +17,7 @@ class App extends React.Component<Record<string, never>, AppState> {
     this.state = {
       searchValue: loadSearchValue(),
       triggerSearch: false,
+      throwError: false,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -35,7 +37,9 @@ class App extends React.Component<Record<string, never>, AppState> {
 
   render() {
     const { searchValue, triggerSearch } = this.state;
-
+    if (this.state.throwError) {
+      throw new Error('Button error');
+    }
     return (
       <>
         <div className="top-controls">
@@ -44,7 +48,12 @@ class App extends React.Component<Record<string, never>, AppState> {
         </div>
         <div>
           <CardList searchValue={searchValue} triggerSearch={triggerSearch} />
-          <Button btnName="Error Button" />
+          <Button
+            btnName="Error Button"
+            onClick={() => {
+              this.setState({ throwError: true });
+            }}
+          />
         </div>
       </>
     );
