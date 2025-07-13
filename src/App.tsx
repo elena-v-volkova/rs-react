@@ -3,6 +3,7 @@ import './App.css';
 import Button from './components/button/Button';
 import CardList from './components/cardList/CardList';
 import Search from './components/search/Search';
+import { loadSearchValue, saveSearchValue } from './utils/storage';
 
 interface AppState {
   searchValue: string;
@@ -13,7 +14,7 @@ class App extends React.Component<Record<string, never>, AppState> {
   constructor(props: Record<string, never>) {
     super(props);
     this.state = {
-      searchValue: '',
+      searchValue: loadSearchValue(),
       triggerSearch: false,
     };
 
@@ -26,8 +27,9 @@ class App extends React.Component<Record<string, never>, AppState> {
   }
 
   handleSearchClick(): void {
+    saveSearchValue(this.state.searchValue.trim());
     this.setState({ triggerSearch: true }, () => {
-      this.setState({ triggerSearch: false });
+      this.setState({ triggerSearch: false, searchValue: this.state.searchValue.trim() });
     });
   }
 
