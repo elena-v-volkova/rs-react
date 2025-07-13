@@ -1,7 +1,7 @@
 import './App.css';
-import Button from './components/button/button';
-import Card from './components/card/card';
-import Search from './components/search/search';
+import Button from './components/button/Button';
+import CardList from './components/cardList/cardList';
+import Search from './components/search/Search';
 
 function App() {
   return (
@@ -11,9 +11,7 @@ function App() {
         <Button btnName="Search"></Button>
       </div>
       <div>
-        <div className="results">
-          <Card></Card>
-        </div>
+        <CardList />
         <Button btnName="Error Button"></Button>
       </div>
     </>
