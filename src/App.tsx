@@ -31,7 +31,10 @@ class App extends React.Component<Record<string, never>, AppState> {
   handleSearchClick(): void {
     saveSearchValue(this.state.searchValue.trim());
     this.setState({ triggerSearch: true }, () => {
-      this.setState({ triggerSearch: false, searchValue: this.state.searchValue.trim() });
+      this.setState({
+        triggerSearch: false,
+        searchValue: this.state.searchValue.trim(),
+      });
     });
   }
 

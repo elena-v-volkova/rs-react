@@ -3,8 +3,14 @@ import './index.css';
 import App from './App.tsx';
 import ErrorBoundary from './utils/ErrorBoundary.tsx';
 
-createRoot(document.getElementById('root')!).render(
-  <ErrorBoundary>
-    <App />
-  </ErrorBoundary>
-);
+const rootElement = document.getElementById('root');
+
+if (rootElement) {
+  createRoot(rootElement).render(
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  );
+} else {
+  throw new Error('Root element not found');
+}
