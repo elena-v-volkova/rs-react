@@ -28,9 +28,7 @@ class CardList extends React.Component<CardListProps, State> {
     this.setState({ loading: true });
     fetchData(this.props.searchValue)
       .then((data) => {
-        setTimeout(() => {
-          this.setState({ characters: data, loading: false });
-        }, 2000);
+        this.setState({ characters: data, loading: false });
       })
       .catch((err) => {
         this.setState({ characters: [], error: err.message, loading: false });
@@ -42,9 +40,7 @@ class CardList extends React.Component<CardListProps, State> {
       this.setState({ loading: true, error: null });
       fetchData(this.props.searchValue)
         .then((data) => {
-          setTimeout(() => {
-            this.setState({ characters: data, loading: false });
-          }, 2000);
+          this.setState({ characters: data, loading: false });
         })
         .catch((err: Error) => {
           this.setState({ characters: [], error: err.message, loading: false });
@@ -66,7 +62,7 @@ class CardList extends React.Component<CardListProps, State> {
     if (error) return <p>Error: {error}</p>;
 
     return (
-      <div className="results">
+      <div className="results" data-testid="results">
         {characters.map((character) => (
           <Card key={character.id} character={character} />
         ))}
