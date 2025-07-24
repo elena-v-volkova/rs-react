@@ -8,9 +8,8 @@ function NoError() {
   return <div>No errors</div>;
 }
 
-function Err() {
+function Err(): never {
   throw new Error('crash');
-  return null;
 }
 
 describe('ErrorBoundary', () => {

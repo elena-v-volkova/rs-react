@@ -8,6 +8,10 @@ import { vi } from 'vitest';
 import { charactersMock } from '../../test-utils/mockData';
 
 describe('Search input tests', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   test('input appears with value', () => {
     setup(<Search value="hello" onChange={() => {}} />);
     const input = screen.getByPlaceholderText(/search by name/i);
