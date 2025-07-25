@@ -12,7 +12,7 @@ describe('CardList', () => {
   test('load state & loader)', async () => {
     vi.spyOn(api, 'fetchData').mockResolvedValue(charactersMock);
 
-    render(<CardList searchValue="rick" triggerSearch={false} />);
+    render(<CardList searchValue="rick" triggerSearch="rick" />);
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
 
     expect(await screen.findByText(/rick sanchez/i)).toBeInTheDocument();
@@ -22,14 +22,14 @@ describe('CardList', () => {
   test('shows error message when fetch fails', async () => {
     vi.spyOn(api, 'fetchData').mockRejectedValue(new Error('fail'));
 
-    render(<CardList searchValue="rick" triggerSearch={true} />);
+    render(<CardList searchValue="rick" triggerSearch="rick" />);
     expect(await screen.findByText(/error/i)).toBeInTheDocument();
   });
 
   test('renders nothing if no data found', async () => {
     vi.spyOn(api, 'fetchData').mockResolvedValue([]);
 
-    render(<CardList searchValue="rick" triggerSearch={true} />);
+    render(<CardList searchValue="rick" triggerSearch="rick" />);
 
     expect(screen.queryByText(/rick sanchez/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/morty smith/i)).not.toBeInTheDocument();

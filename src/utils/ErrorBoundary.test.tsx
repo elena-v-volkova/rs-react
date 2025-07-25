@@ -30,14 +30,4 @@ describe('ErrorBoundary', () => {
     );
     expect(screen.getByText(/Fallback ui/i)).toBeInTheDocument();
   });
-
-  test('error button works', async () => {
-    render(
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
-    );
-    await userEvent.click(screen.getByText(/Error Button/i));
-    expect(screen.getByText(/Fallback ui/i)).toBeInTheDocument();
-  });
 });

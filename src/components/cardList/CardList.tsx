@@ -1,74 +1,54 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Card from './Card';
 import { fetchData } from '../../api/api';
 import type { Character } from './types';
 
-interface State {
-  characters: Character[];
-  loading: boolean;
-  error: string | null;
-}
-
 interface CardListProps {
   searchValue: string;
-  triggerSearch: boolean;
+  triggerSearch: string;
 }
 
-class CardList extends React.Component<CardListProps, State> {
-  constructor(props: CardListProps) {
-    super(props);
-    this.state = {
-      characters: [],
-      loading: false,
-      error: null,
-    };
-  }
+export default function CardList({
+  searchValue,
+  triggerSearch,
+}: CardListProps) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [isErr, setIsError] = useState('');
 
-  componentDidMount() {
-    this.setState({ loading: true });
-    fetchData(this.props.searchValue)
+  useEffect(() => {
+    if (!triggerSearch) return;
+
+    setIsLoading(true);
+    setIsError('');
+    setCharacters([]);
+
+    fetchData(searchValue)
       .then((data) => {
-        this.setState({ characters: data, loading: false });
+        setCharacters(data);
+        setIsLoading(false);
       })
       .catch((err) => {
-        this.setState({ characters: [], error: err.message, loading: false });
+        setCharacters([]);
+        setIsLoading(false);
+        setIsError(err.message);
       });
-  }
+  }, [triggerSearch]);
 
-  componentDidUpdate(prevProps: CardListProps) {
-    if (this.props.triggerSearch && !prevProps.triggerSearch) {
-      this.setState({ loading: true, error: null });
-      fetchData(this.props.searchValue)
-        .then((data) => {
-          this.setState({ characters: data, loading: false });
-        })
-        .catch((err: Error) => {
-          this.setState({ characters: [], error: err.message, loading: false });
-        });
-    }
-  }
-
-  render() {
-    const { characters, loading, error } = this.state;
-
-    if (loading)
-      return (
-        <div className="loader-container">
-          <div className="spinner" />
-          <p>Loading...</p>
-        </div>
-      );
-
-    if (error) return <p>Error: {error}</p>;
-
+  if (isLoading)
     return (
-      <div className="results" data-testid="results">
-        {characters.map((character) => (
-          <Card key={character.id} character={character} />
-        ))}
+      <div className="loader-container">
+        <div className="spinner" />
+        <p>Loading...</p>
       </div>
     );
-  }
-}
+  if (isErr) return <p>Error: {isErr}</p>;
 
-export default CardList;
+  return (
+    <div className="results" data-testid="results">
+      {characters.map((character) => (
+        <Card key={character.id} character={character} />
+      ))}
+    </div>
+  );
+}
