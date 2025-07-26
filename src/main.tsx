@@ -4,13 +4,20 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import ErrorBoundary from './utils/ErrorBoundary.tsx';
-import Page404 from './components/pages/404/Page404.tsx';
-import About from './components/pages/about/About.tsx';
+import About from './routes/about/About.tsx';
+import Page404 from './routes/404/Page404.tsx';
+import DetailedCard from './components/detailedCard/DetailedCard.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    children: [
+      {
+        path: '/',
+        element: <DetailedCard />,
+      },
+    ],
   },
   {
     path: '*',

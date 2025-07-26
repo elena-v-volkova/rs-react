@@ -17,7 +17,7 @@ export default function Pagination({
     <div className="pagination">
       <div className="pagination__buttons">
         <button
-          key={1}
+          key={'first'}
           onClick={() => onPageChange(1)}
           className="page-btn pagination__first-btn"
           disabled={currentPage === 1}
@@ -25,7 +25,7 @@ export default function Pagination({
           «
         </button>
         <button
-          key={1}
+          key={'prev'}
           onClick={() => onPageChange(currentPage - 1)}
           className="page-btn pagination__first-btn"
           disabled={currentPage === 1}
@@ -42,7 +42,7 @@ export default function Pagination({
           </button>
         ))}
         <button
-          key={1}
+          key={'next'}
           onClick={() => onPageChange(currentPage + 1)}
           className="page-btn pagination__first-btn"
           disabled={currentPage === pageNumbers.length}
@@ -50,7 +50,7 @@ export default function Pagination({
           ›
         </button>
         <button
-          key={1}
+          key={'last'}
           onClick={() => onPageChange(pageNumbers.length)}
           className="page-btn pagination__first-btn"
           disabled={currentPage === pageNumbers.length}

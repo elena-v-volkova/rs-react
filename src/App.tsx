@@ -5,13 +5,23 @@ import Search from './components/search/Search';
 import useLocalStorage from './hooks/useLocalStorage';
 import Pagination from './components/pagination/Pagination';
 import { useCharacterSearch } from './hooks/useCharacterSearch';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
 export default function App() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const pageFromUrl = Number(searchParams.get('page') ?? '1');
+  const [page, setPage] = useState(pageFromUrl);
+
+  useEffect(() => {
+    setPage(pageFromUrl);
+  }, [pageFromUrl]);
+
   const [localStorageValue, setLocalStorageValue] = useLocalStorage('');
   const [searchInputValue, setSearchInputValue] = useState(localStorageValue);
   const [searchVersion, setSearchVersion] = useState(1);
-  const [page, setPage] = useState(1);
+
   const { characters, isLoading, isError, currentData } = useCharacterSearch(
     localStorageValue,
     page,
@@ -25,11 +35,11 @@ export default function App() {
   const handleSearchClick = () => {
     setLocalStorageValue(searchInputValue);
     setSearchVersion((v) => v + 1);
-    setPage(1);
+    setSearchParams({ page: '1' });
   };
 
   const handlePageChange = (newPage: number) => {
-    setPage(newPage);
+    setSearchParams({ page: newPage.toString() });
     setSearchVersion((v) => v + 1);
   };
 
@@ -40,18 +50,21 @@ export default function App() {
         <Button btnName="Search" onClick={handleSearchClick} />
         <a href="/About">About</a>
       </div>
-      <div>
+      <div className="main-results">
         <CardList
           characters={characters}
           isLoading={isLoading}
           isError={isError}
         />
+        {!isLoading && characters.length > 0 && <Outlet />}
       </div>
-      <Pagination
-        currentPage={page}
-        pages={currentData?.info?.pages ?? 1}
-        onPageChange={handlePageChange}
-      />
+      {!isLoading && characters.length > 0 && (
+        <Pagination
+          currentPage={page}
+          pages={currentData?.info?.pages ?? 1}
+          onPageChange={handlePageChange}
+        />
+      )}
     </>
   );
 }

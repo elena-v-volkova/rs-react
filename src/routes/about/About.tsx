@@ -9,7 +9,9 @@ export default function About() {
           href="https://rs.school/courses/reactjs"
           target="_blank"
           rel="noreferrer"
-        ></a>
+        >
+          Link
+        </a>
       </p>
       <a href="/">Back to main</a>
     </div>

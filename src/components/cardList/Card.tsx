@@ -1,10 +1,10 @@
 import type { CardProps } from './types';
 
 export default function Card(props: CardProps) {
-  const { character } = props;
+  const { character, onClick } = props;
 
   return (
-    <div className="card">
+    <div className="card" onClick={onClick}>
       <img src={character.image} alt={character.name} width={100} />
       <h3>{character.name}</h3>
       <div className="card-description">

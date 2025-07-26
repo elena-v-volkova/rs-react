@@ -1,5 +1,6 @@
 import Card from './Card';
 import type { Character } from './types';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 interface CardListProps {
   characters: Character[];
@@ -12,6 +13,15 @@ export default function CardList({
   isLoading,
   isError,
 }: CardListProps) {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const handleCardClick = (characterId: number) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('details', characterId.toString());
+    navigate(`/?${newParams.toString()}`);
+  };
+
   if (isLoading)
     return (
       <div className="loader-container">
@@ -28,7 +38,11 @@ export default function CardList({
   return (
     <div className="results" data-testid="results">
       {characters.map((character) => (
-        <Card key={character.id} character={character} />
+        <Card
+          key={character.id}
+          character={character}
+          onClick={() => handleCardClick(character.id)}
+        />
       ))}
     </div>
   );
