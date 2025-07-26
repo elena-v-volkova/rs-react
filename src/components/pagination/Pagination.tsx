@@ -15,7 +15,7 @@ export default function Pagination({
 
   return (
     <div className="pagination">
-      <div>
+      <div className="pagination__buttons">
         <button
           key={1}
           onClick={() => onPageChange(1)}

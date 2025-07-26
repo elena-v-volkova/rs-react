@@ -10,7 +10,7 @@ export function useCharacterSearch(
   const [characters, setCharacters] = useState<Character[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState('');
-  const [currentData, setCurrentData] = useState<any>(null);
+  const [currentData, setCurrentData] = useState(null);
 
   useEffect(() => {
     if (!triggerSearch) return;

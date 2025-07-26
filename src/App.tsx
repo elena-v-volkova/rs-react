@@ -38,6 +38,7 @@ export default function App() {
       <div className="top-controls">
         <Search value={searchInputValue} onChange={handleInputChange} />
         <Button btnName="Search" onClick={handleSearchClick} />
+        <a href="/About">About</a>
       </div>
       <div>
         <CardList

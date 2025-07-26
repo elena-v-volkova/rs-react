@@ -5,6 +5,7 @@ import App from './App';
 import './index.css';
 import ErrorBoundary from './utils/ErrorBoundary.tsx';
 import Page404 from './components/pages/404/Page404.tsx';
+import About from './components/pages/about/About.tsx';
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
   {
     path: '*',
     element: <Page404 />,
+  },
+  {
+    path: '/about',
+    element: <About />,
   },
 ]);
 
