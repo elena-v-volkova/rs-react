@@ -1,16 +1,33 @@
-import { createRoot } from 'react-dom/client';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import App from './App';
 import './index.css';
-import App from './App.tsx';
 import ErrorBoundary from './utils/ErrorBoundary.tsx';
+import Page404 from './components/pages/404/Page404.tsx';
 
-const rootElement = document.getElementById('root');
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+  },
+  {
+    path: '*',
+    element: <Page404 />,
+  },
+]);
 
-if (rootElement) {
-  createRoot(rootElement).render(
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
-  );
-} else {
+const root = document.getElementById('root');
+
+if (!root) {
   throw new Error('Root element not found');
+}
+{
+  ReactDOM.createRoot(root).render(
+    <React.StrictMode>
+      <ErrorBoundary>
+        <RouterProvider router={router} />
+      </ErrorBoundary>
+    </React.StrictMode>
+  );
 }

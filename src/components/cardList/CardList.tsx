@@ -1,40 +1,17 @@
-import { useEffect, useState } from 'react';
 import Card from './Card';
-import { fetchData } from '../../api/api';
 import type { Character } from './types';
 
 interface CardListProps {
-  searchValue: string;
-  triggerSearch: number;
+  characters: Character[];
+  isLoading: boolean;
+  isError: string;
 }
 
 export default function CardList({
-  searchValue,
-  triggerSearch,
+  characters,
+  isLoading,
+  isError,
 }: CardListProps) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [isErr, setIsError] = useState('');
-
-  useEffect(() => {
-    if (!triggerSearch) return;
-
-    setIsLoading(true);
-    setIsError('');
-    setCharacters([]);
-
-    fetchData(searchValue)
-      .then((data) => {
-        setCharacters(data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setCharacters([]);
-        setIsLoading(false);
-        setIsError(err.message);
-      });
-  }, [triggerSearch]);
-
   if (isLoading)
     return (
       <div className="loader-container">
@@ -42,7 +19,11 @@ export default function CardList({
         <p>Loading...</p>
       </div>
     );
-  if (isErr) return <p>Error: {isErr}</p>;
+
+  if (isError) return <p>Error: {isError}</p>;
+
+  if (characters.length === 0)
+    return <p>No characters found. Try a different name.</p>;
 
   return (
     <div className="results" data-testid="results">
