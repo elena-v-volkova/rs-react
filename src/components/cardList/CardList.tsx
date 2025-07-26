@@ -5,7 +5,7 @@ import type { Character } from './types';
 
 interface CardListProps {
   searchValue: string;
-  triggerSearch: string;
+  triggerSearch: number;
 }
 
 export default function CardList({

@@ -1,8 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { setup } from '../test-utils/test-utils';
 import ErrorBoundary from './ErrorBoundary';
-import App from '../App';
-import userEvent from '@testing-library/user-event';
 
 function NoError() {
   return <div>No errors</div>;
