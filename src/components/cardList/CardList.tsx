@@ -1,74 +1,49 @@
-import React from 'react';
 import Card from './Card';
-import { fetchData } from '../../api/api';
 import type { Character } from './types';
-
-interface State {
-  characters: Character[];
-  loading: boolean;
-  error: string | null;
-}
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 interface CardListProps {
-  searchValue: string;
-  triggerSearch: boolean;
+  characters: Character[];
+  isLoading: boolean;
+  isError: string | boolean;
 }
 
-class CardList extends React.Component<CardListProps, State> {
-  constructor(props: CardListProps) {
-    super(props);
-    this.state = {
-      characters: [],
-      loading: false,
-      error: null,
-    };
-  }
+export default function CardList({
+  characters,
+  isLoading,
+  isError,
+}: CardListProps) {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  componentDidMount() {
-    this.setState({ loading: true });
-    fetchData(this.props.searchValue)
-      .then((data) => {
-        this.setState({ characters: data, loading: false });
-      })
-      .catch((err) => {
-        this.setState({ characters: [], error: err.message, loading: false });
-      });
-  }
+  const handleCardClick = (characterId: number) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('details', characterId.toString());
+    navigate(`/?${newParams.toString()}`);
+  };
 
-  componentDidUpdate(prevProps: CardListProps) {
-    if (this.props.triggerSearch && !prevProps.triggerSearch) {
-      this.setState({ loading: true, error: null });
-      fetchData(this.props.searchValue)
-        .then((data) => {
-          this.setState({ characters: data, loading: false });
-        })
-        .catch((err: Error) => {
-          this.setState({ characters: [], error: err.message, loading: false });
-        });
-    }
-  }
-
-  render() {
-    const { characters, loading, error } = this.state;
-
-    if (loading)
-      return (
-        <div className="loader-container">
-          <div className="spinner" />
-          <p>Loading...</p>
-        </div>
-      );
-
-    if (error) return <p>Error: {error}</p>;
-
+  if (isLoading)
     return (
-      <div className="results" data-testid="results">
-        {characters.map((character) => (
-          <Card key={character.id} character={character} />
-        ))}
+      <div className="loader-container">
+        <div className="spinner" />
+        <p>Loading...</p>
       </div>
     );
-  }
-}
 
-export default CardList;
+  if (isError) return <p>Error: {isError}</p>;
+
+  if (characters.length === 0)
+    return <p>No characters found. Try a different name.</p>;
+
+  return (
+    <div className="results" data-testid="results">
+      {characters.map((character) => (
+        <Card
+          key={character.id}
+          character={character}
+          onClick={() => handleCardClick(character.id)}
+        />
+      ))}
+    </div>
+  );
+}

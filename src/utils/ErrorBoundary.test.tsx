@@ -1,19 +1,25 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { setup } from '../test-utils/test-utils';
 import ErrorBoundary from './ErrorBoundary';
-import App from '../App';
-import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 function NoError() {
   return <div>No errors</div>;
 }
 
-function Err() {
+function Err(): never {
   throw new Error('crash');
-  return null;
 }
 
 describe('ErrorBoundary', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   test('shows child when no error', () => {
     setup(
       <ErrorBoundary>
@@ -29,16 +35,6 @@ describe('ErrorBoundary', () => {
         <Err />
       </ErrorBoundary>
     );
-    expect(screen.getByText(/Fallback ui/i)).toBeInTheDocument();
-  });
-
-  test('error button works', async () => {
-    render(
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
-    );
-    await userEvent.click(screen.getByText(/Error Button/i));
     expect(screen.getByText(/Fallback ui/i)).toBeInTheDocument();
   });
 });

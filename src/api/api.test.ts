@@ -15,7 +15,7 @@ describe('fetchData', () => {
       'fetch',
       vi.fn().mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve(fakeData),
+        json: () => Promise.resolve(fakeData.results),
       })
     );
 
@@ -23,7 +23,7 @@ describe('fetchData', () => {
 
     expect(result).toEqual(fakeData.results);
     expect(fetch).toHaveBeenCalledWith(
-      'https://rickandmortyapi.com/api/character?name=rick'
+      'https://rickandmortyapi.com/api/character?name=rick&page=1'
     );
   });
 

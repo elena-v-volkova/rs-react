@@ -1,5 +1,8 @@
-export async function fetchData(searchValue: string = '') {
-  const url = `https://rickandmortyapi.com/api/character?name=${encodeURIComponent(searchValue)}`;
+export async function fetchData(
+  searchValue: string = '',
+  pageValue: number = 1
+) {
+  const url = `https://rickandmortyapi.com/api/character?name=${encodeURIComponent(searchValue)}&page=${pageValue}`;
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -7,5 +10,17 @@ export async function fetchData(searchValue: string = '') {
   }
 
   const data = await response.json();
-  return data.results;
+  return data;
+}
+
+export async function fetchCharacterById(id: string) {
+  const url = `https://rickandmortyapi.com/api/character/${id}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(` ${id} not found`);
+  }
+
+  const data = await response.json();
+  return data;
 }

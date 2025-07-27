@@ -5,9 +5,14 @@ import Search from './Search';
 import App from '../../App';
 import * as api from '../../api/api';
 import { vi } from 'vitest';
-import { charactersMock } from '../../test-utils/mockData';
+import { apiResponseMock } from '../../test-utils/mockData';
+import { MemoryRouter } from 'react-router';
 
 describe('Search input tests', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   test('input appears with value', () => {
     setup(<Search value="hello" onChange={() => {}} />);
     const input = screen.getByPlaceholderText(/search by name/i);
@@ -51,13 +56,21 @@ describe('Search input tests', () => {
 
   test('gets value from localStorage in main app', () => {
     localStorage.setItem('searchValue', 'stored');
-    setup(<App />);
+    setup(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText(/search by name/i);
     expect(input).toHaveValue('stored');
   });
 
   test('trims and saves to localStorage after click', async () => {
-    const { user } = setup(<App />);
+    const { user } = setup(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText(/search by name/i);
     const button = screen.getByRole('button', { name: /search/i });
 
@@ -69,9 +82,13 @@ describe('Search input tests', () => {
   });
 
   test('search triggers fetch and displays results', async () => {
-    vi.spyOn(api, 'fetchData').mockResolvedValue(charactersMock);
+    vi.spyOn(api, 'fetchData').mockResolvedValue(apiResponseMock);
 
-    const { user } = setup(<App />);
+    const { user } = setup(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText(/search by name/i);
     const button = screen.getByRole('button', { name: /search/i });
 
@@ -79,6 +96,6 @@ describe('Search input tests', () => {
     await user.type(input, 'rick');
     await user.click(button);
 
-    expect(await screen.findByText(/rick sanchez/i)).toBeInTheDocument();
+    expect(await screen.findByText(/rick Sanchez/i)).toBeInTheDocument();
   });
 });
