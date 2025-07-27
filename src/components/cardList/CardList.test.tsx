@@ -1,22 +1,41 @@
 import { render, screen } from '@testing-library/react';
 import CardList from './CardList';
-import { vi } from 'vitest';
+import { test, vi } from 'vitest';
 import * as api from '../../api/api';
 import { charactersMock } from '../../test-utils/mockData';
+import { MemoryRouter } from 'react-router';
 
 describe('CardList', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  test('load state & loader)', async () => {
+  test('show loader while loading', async () => {
     vi.spyOn(api, 'fetchData').mockResolvedValue(charactersMock);
 
     render(
-      <CardList characters={charactersMock} isLoading={false} isError={false} />
+      <MemoryRouter>
+        <CardList
+          characters={charactersMock}
+          isLoading={true}
+          isError={false}
+        />
+      </MemoryRouter>
     );
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  });
 
+  test('shows charachters when loaded', async () => {
+    vi.spyOn(api, 'fetchData').mockResolvedValue(charactersMock);
+    render(
+      <MemoryRouter>
+        <CardList
+          characters={charactersMock}
+          isLoading={false}
+          isError={false}
+        />
+      </MemoryRouter>
+    );
     expect(await screen.findByText(/rick sanchez/i)).toBeInTheDocument();
     expect(await screen.findByText(/morty smith/i)).toBeInTheDocument();
   });
@@ -25,7 +44,13 @@ describe('CardList', () => {
     vi.spyOn(api, 'fetchData').mockRejectedValue(new Error('fail'));
 
     render(
-      <CardList characters={charactersMock} isLoading={false} isError={true} />
+      <MemoryRouter>
+        <CardList
+          characters={charactersMock}
+          isLoading={false}
+          isError={true}
+        />
+      </MemoryRouter>
     );
     expect(await screen.findByText(/error/i)).toBeInTheDocument();
   });

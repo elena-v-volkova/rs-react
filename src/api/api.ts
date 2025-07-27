@@ -1,4 +1,7 @@
-export async function fetchData(searchValue: string = '', pageValue?: number) {
+export async function fetchData(
+  searchValue: string = '',
+  pageValue: number = 1
+) {
   const url = `https://rickandmortyapi.com/api/character?name=${encodeURIComponent(searchValue)}&page=${pageValue}`;
 
   const response = await fetch(url);

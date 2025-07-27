@@ -24,7 +24,7 @@ describe('404 page', () => {
 
     render(<RouterProvider router={router} />);
     expect(screen.getByRole('alert')).toHaveTextContent(
-      'Страницы не существуета'
+      'Страницы не существует'
     );
   });
 });

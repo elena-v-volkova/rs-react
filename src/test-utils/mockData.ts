@@ -42,3 +42,13 @@ export const charactersMock: Character[] = [
     created: '2017-11-04T18:50:46.250Z',
   },
 ];
+
+export const apiResponseMock = {
+  info: {
+    count: charactersMock.length,
+    pages: 1,
+    next: null,
+    prev: null,
+  },
+  results: charactersMock,
+};
