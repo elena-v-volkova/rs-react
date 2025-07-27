@@ -7,6 +7,7 @@ import Pagination from './components/pagination/Pagination';
 import { useCharacterSearch } from './hooks/useCharacterSearch';
 import { useState, useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
+import { NavLink } from 'react-router';
 
 export default function App() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,7 +49,9 @@ export default function App() {
       <div className="top-controls">
         <Search value={searchInputValue} onChange={handleInputChange} />
         <Button btnName="Search" onClick={handleSearchClick} />
-        <a href="/About">About</a>
+        <NavLink to="/About" end>
+          About
+        </NavLink>
       </div>
       <div className="main-results">
         <CardList

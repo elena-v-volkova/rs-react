@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 interface CardListProps {
   characters: Character[];
   isLoading: boolean;
-  isError: string;
+  isError: string | boolean;
 }
 
 export default function CardList({

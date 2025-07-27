@@ -27,5 +27,5 @@ export interface State {
 
 export interface CardProps {
   character: Character;
-  onClick: () => void;
+  onClick?: () => void;
 }
