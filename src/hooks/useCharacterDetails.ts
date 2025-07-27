@@ -21,6 +21,8 @@ export function useCharacterDetails(detailsId: string | null) {
       })
       .catch((err) => {
         setIsError(err.message || 'Failed to load character');
+      })
+      .finally(() => {
         setIsLoading(false);
       });
   }, [detailsId]);
