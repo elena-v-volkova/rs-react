@@ -5,8 +5,7 @@ import type { ApiResponse } from '../api/types';
 
 export function useCharacterSearch(
   searchValue: string,
-  page: number,
-  triggerSearch: number
+  page: number
 ): {
   characters: Character[];
   isLoading: boolean;
@@ -19,8 +18,6 @@ export function useCharacterSearch(
   const [currentData, setCurrentData] = useState(null);
 
   useEffect(() => {
-    if (!triggerSearch) return;
-
     setIsLoading(true);
     setIsError('');
     setCharacters([]);
@@ -36,7 +33,7 @@ export function useCharacterSearch(
         setIsLoading(false);
         setIsError(err.message);
       });
-  }, [searchValue, page, triggerSearch]);
+  }, [searchValue, page]);
 
   return { characters, isLoading, isError, currentData };
 }

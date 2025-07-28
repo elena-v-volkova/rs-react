@@ -21,12 +21,10 @@ export default function App() {
 
   const [localStorageValue, setLocalStorageValue] = useLocalStorage('');
   const [searchInputValue, setSearchInputValue] = useState(localStorageValue);
-  const [searchVersion, setSearchVersion] = useState(1);
 
   const { characters, isLoading, isError, currentData } = useCharacterSearch(
     localStorageValue,
-    page,
-    searchVersion
+    page
   );
 
   const handleInputChange = (value: string) => {
@@ -35,13 +33,11 @@ export default function App() {
 
   const handleSearchClick = () => {
     setLocalStorageValue(searchInputValue);
-    setSearchVersion((v) => v + 1);
     setSearchParams({ page: '1' });
   };
 
   const handlePageChange = (newPage: number) => {
     setSearchParams({ page: newPage.toString() });
-    setSearchVersion((v) => v + 1);
   };
 
   return (
