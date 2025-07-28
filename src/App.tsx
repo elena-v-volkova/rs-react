@@ -43,6 +43,7 @@ export default function App() {
   const handleSearchClick = () => {
     setLocalStorageValue(searchInputValue);
     setSearchParams({ page: '1' });
+    setPage(1);
   };
 
   const handlePageChange = (newPage: number) => {
