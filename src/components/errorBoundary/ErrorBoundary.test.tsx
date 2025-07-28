@@ -1,7 +1,8 @@
 import { screen } from '@testing-library/react';
-import { setup } from '../test-utils/test-utils';
-import ErrorBoundary from './ErrorBoundary';
+import { setup } from '../../test-utils/test-utils';
+
 import { vi } from 'vitest';
+import ErrorBoundary from './ErrorBoundary';
 
 function NoError() {
   return <div>No errors</div>;
