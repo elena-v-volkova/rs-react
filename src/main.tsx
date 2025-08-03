@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import './index.css';
-import ErrorBoundary from './utils/ErrorBoundary.tsx';
+import ErrorBoundary from './components/errorBoundary/ErrorBoundary.tsx';
 import About from './routes/about/About.tsx';
 import Page404 from './routes/404/Page404.tsx';
 import DetailedCard from './components/detailedCard/DetailedCard.tsx';

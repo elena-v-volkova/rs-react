@@ -1,3 +1,4 @@
+import SelectedItemsBar from '../selectedItemsBar/SelectedItemsBar';
 import './pagination.css';
 
 interface PaginationProps {
@@ -57,6 +58,7 @@ export default function Pagination({
         >
           »
         </button>
+        <SelectedItemsBar />
       </div>
     </div>
   );
