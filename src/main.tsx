@@ -1,39 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './App';
+import { RouterProvider } from 'react-router-dom';
 import './index.css';
 import ErrorBoundary from './components/errorBoundary/ErrorBoundary.tsx';
-import About from './routes/about/About.tsx';
-import Page404 from './routes/404/Page404.tsx';
-import DetailedCard from './components/detailedCard/DetailedCard.tsx';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    children: [
-      {
-        path: '/',
-        element: <DetailedCard />,
-      },
-    ],
-  },
-  {
-    path: '*',
-    element: <Page404 />,
-  },
-  {
-    path: '/about',
-    element: <About />,
-  },
-]);
+import router from './routes/router.tsx';
 
 const root = document.getElementById('root');
 
 if (!root) {
   throw new Error('Root element not found');
 }
+
 {
   ReactDOM.createRoot(root).render(
     <React.StrictMode>

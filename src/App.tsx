@@ -54,6 +54,7 @@ export default function App() {
     <ThemeContext value={{ theme, setTheme }}>
       <main className={`main ${theme === 'dark' ? 'dark' : ''}`}>
         <div className={`top-controls`}>
+          <h1>Main Page</h1>
           <Search value={searchInputValue} onChange={handleInputChange} />
           <Button btnName="Search" onClick={handleSearchClick} />
           <NavLink to="/About" end>
