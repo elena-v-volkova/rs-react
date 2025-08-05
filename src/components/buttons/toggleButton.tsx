@@ -3,15 +3,20 @@ import useTheme from '../../hooks/useTheme';
 
 export default function ToggleButton() {
   const { theme, setTheme } = useTheme();
+
+  const isDark = theme === themes.dark;
+
+  const toggleTheme = () => {
+    setTheme(isDark ? themes.light : themes.dark);
+  };
+
   return (
     <>
       <input
         type="checkbox"
         id="switch"
-        checked={theme === themes.dark}
-        onClick={() => {
-          setTheme(theme === themes.dark ? themes.light : themes.dark);
-        }}
+        checked={isDark}
+        onChange={toggleTheme}
       />
       <label htmlFor="switch"></label>
     </>
