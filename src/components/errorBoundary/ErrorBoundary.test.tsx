@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { setup } from '../../test-utils/test-utils';
 
-import { vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import ErrorBoundary from './ErrorBoundary';
 
 function NoError() {

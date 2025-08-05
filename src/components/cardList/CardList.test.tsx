@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import CardList from './CardList';
-import { test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import * as api from '../../api/api';
 import { charactersMock } from '../../test-utils/mockData';
 import { MemoryRouter } from 'react-router';

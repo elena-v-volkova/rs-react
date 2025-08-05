@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import SelectedItemsBar from './SelectedItemsBar';
-import * as itemStore from '../../store/itemStore'; // Импортируем весь модуль
-import { vi } from 'vitest';
+import * as itemStore from '../../store/itemStore';
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../../store/itemStore');
 

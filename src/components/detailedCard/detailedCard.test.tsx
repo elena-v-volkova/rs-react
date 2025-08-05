@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import type { Mock } from 'vitest';
 import { screen } from '@testing-library/react';
 import DetailedCard from './DetailedCard';

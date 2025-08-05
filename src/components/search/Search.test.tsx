@@ -4,7 +4,7 @@ import { setup } from '../../test-utils/test-utils';
 import Search from './Search';
 import App from '../../App';
 import * as api from '../../api/api';
-import { vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { apiResponseMock } from '../../test-utils/mockData';
 import { MemoryRouter } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

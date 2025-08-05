@@ -1,5 +1,5 @@
 import { fetchData } from './api';
-import { vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 describe('fetchData', () => {
   beforeEach(() => {
