@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import App from '../App';
 import DetailedCard from '../components/detailedCard/DetailedCard';
 import About from './about/About';
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: '/',
+        index: true,
         element: <DetailedCard />,
       },
     ],
@@ -20,8 +20,12 @@ const router = createBrowserRouter([
     element: <About />,
   },
   {
-    path: '*',
+    path: '/404',
     element: <Page404 />,
+  },
+  {
+    path: '*',
+    element: <Navigate to="/404" replace />,
   },
 ]);
 

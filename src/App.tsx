@@ -4,7 +4,7 @@ import CardList from './components/cardList/CardList';
 import Search from './components/search/Search';
 import useLocalStorage from './hooks/useLocalStorage';
 import Pagination from './components/pagination/Pagination';
-import { useCharacterSearch } from './hooks/useCharacterSearch';
+import { useCharacterSearchQuery } from './hooks/useCharacterSearchQuery';
 import { useState, useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { NavLink } from 'react-router';
@@ -31,10 +31,8 @@ export default function App() {
   const [localStorageValue, setLocalStorageValue] = useLocalStorage('');
   const [searchInputValue, setSearchInputValue] = useState(localStorageValue);
 
-  const { characters, isLoading, isError, currentData } = useCharacterSearch(
-    localStorageValue,
-    page
-  );
+  const { characters, isLoading, isError, currentData } =
+    useCharacterSearchQuery(localStorageValue, page);
 
   const handleInputChange = (value: string) => {
     setSearchInputValue(value);

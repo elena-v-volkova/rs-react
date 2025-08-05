@@ -1,8 +1,10 @@
+import { apiURL } from '../constants';
+
 export async function fetchData(
   searchValue: string = '',
   pageValue: number = 1
 ) {
-  const url = `https://rickandmortyapi.com/api/character?name=${encodeURIComponent(searchValue)}&page=${pageValue}`;
+  const url = `${apiURL}/character?name=${encodeURIComponent(searchValue)}&page=${pageValue}`;
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -14,7 +16,7 @@ export async function fetchData(
 }
 
 export async function fetchCharacterById(id: string) {
-  const url = `https://rickandmortyapi.com/api/character/${id}`;
+  const url = `${apiURL}/character/${id}`;
 
   const response = await fetch(url);
   if (!response.ok) {
