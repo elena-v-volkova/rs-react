@@ -16,6 +16,8 @@ export function useCharacterSearchQuery(
   const { isPending, isError, data, error } = useQuery({
     queryKey: ['characters', searchValue, page],
     queryFn: () => fetchData(searchValue, page),
+    refetchInterval: 50000,
+    staleTime: 5 * 60 * 1000,
   });
 
   return {

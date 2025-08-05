@@ -1,5 +1,5 @@
 import './App.css';
-import Button from './components/button/Button';
+import Button from './components/buttons/Button';
 import CardList from './components/cardList/CardList';
 import Search from './components/search/Search';
 import useLocalStorage from './hooks/useLocalStorage';
@@ -8,8 +8,9 @@ import { useCharacterSearchQuery } from './hooks/useCharacterSearchQuery';
 import { useState, useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { NavLink } from 'react-router';
-import ToggleButton from './components/button/toggleButton';
+import ToggleButton from './components/buttons/toggleButton';
 import { ThemeContext } from './context';
+import { RefreshButton } from './components/buttons/RefreshButton';
 
 export default function App() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,6 +60,7 @@ export default function App() {
             About
           </NavLink>
           <ToggleButton />
+          <RefreshButton queryKey={['characters', searchInputValue]} />
         </div>
         <div className="main-results">
           <CardList
