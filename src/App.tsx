@@ -8,7 +8,7 @@ import { useCharacterSearchQuery } from './hooks/useCharacterSearchQuery';
 import { useState, useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { NavLink } from 'react-router';
-import ToggleButton from './components/buttons/toggleButton';
+import ToggleButton from './components/buttons/ToggleButton';
 import { RefreshButton } from './components/buttons/RefreshButton';
 import ThemeProvider from './provider/ThemeProvider';
 
