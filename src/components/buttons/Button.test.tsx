@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Button from './Button';
-import { vi } from 'vitest';
-import { ThemeContext } from '../../context';
+import { describe, expect, test, vi } from 'vitest';
+import { ThemeContext } from '../../provider/ThemeProvider';
 
 describe('Button', () => {
   const renderWithTheme = (ui: React.ReactNode, theme = 'light') => {
-    const setTheme = vi.fn(); // можно мок
+    const setTheme = vi.fn();
     return render(
       <ThemeContext.Provider value={{ theme, setTheme }}>
         {ui}

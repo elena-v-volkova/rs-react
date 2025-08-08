@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { useCharacterDetails } from '../../hooks/useCharacterDetails';
+import useCharacterDetailsQuery from '../../hooks/useCharacterDetailsQuery';
 
 export default function DetailedCard() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const detailsId = searchParams.get('details');
-  const { character, isLoading, isError } = useCharacterDetails(detailsId);
+  const detailsId = searchParams.get('details') || '';
+  const { character, isLoading, isError, errorMessage } =
+    useCharacterDetailsQuery(detailsId);
 
   useEffect(() => {
     if (detailsId) {
@@ -16,7 +17,7 @@ export default function DetailedCard() {
 
   if (!detailsId) return null;
   if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error: {isError}</p>;
+  if (isError) return <p>Error: {errorMessage}</p>;
   if (!character) return null;
 
   const handleClose = () => {

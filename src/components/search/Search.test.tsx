@@ -4,11 +4,20 @@ import { setup } from '../../test-utils/test-utils';
 import Search from './Search';
 import App from '../../App';
 import * as api from '../../api/api';
-import { vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { apiResponseMock } from '../../test-utils/mockData';
-import { MemoryRouter } from 'react-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { renderWithRouter } from '../../test-utils/renderTestUtil';
 
 describe('Search input tests', () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
   beforeEach(() => {
     localStorage.clear();
   });
@@ -56,21 +65,24 @@ describe('Search input tests', () => {
 
   test('gets value from localStorage in main app', () => {
     localStorage.setItem('searchValue', 'stored');
-    setup(
-      <MemoryRouter>
+
+    renderWithRouter(
+      <QueryClientProvider client={queryClient}>
         <App />
-      </MemoryRouter>
+      </QueryClientProvider>
     );
+
     const input = screen.getByPlaceholderText(/search by name/i);
     expect(input).toHaveValue('stored');
   });
 
   test('trims and saves to localStorage after click', async () => {
-    const { user } = setup(
-      <MemoryRouter>
+    const { user } = renderWithRouter(
+      <QueryClientProvider client={queryClient}>
         <App />
-      </MemoryRouter>
+      </QueryClientProvider>
     );
+
     const input = screen.getByPlaceholderText(/search by name/i);
     const button = screen.getByRole('button', { name: /search/i });
 
@@ -84,11 +96,12 @@ describe('Search input tests', () => {
   test('search triggers fetch and displays results', async () => {
     vi.spyOn(api, 'fetchData').mockResolvedValue(apiResponseMock);
 
-    const { user } = setup(
-      <MemoryRouter>
+    const { user } = renderWithRouter(
+      <QueryClientProvider client={queryClient}>
         <App />
-      </MemoryRouter>
+      </QueryClientProvider>
     );
+
     const input = screen.getByPlaceholderText(/search by name/i);
     const button = screen.getByRole('button', { name: /search/i });
 

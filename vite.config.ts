@@ -4,9 +4,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   test: {
-    setupFiles: './src/test-utils/test-utils.ts',
+    setupFiles: './src/test-utils/test-utils.tsx',
     environment: 'jsdom',
     globals: true,
+
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],
@@ -17,6 +18,9 @@ export default defineConfig({
         'src/index.{js,jsx,ts,tsx}',
         'src/setupTests.{js,ts}',
         'src/**/*.d.ts',
+        'src/main.tsx',
+        'src/test-utils',
+        'src/**/types.ts',
       ],
       thresholds: {
         global: {
