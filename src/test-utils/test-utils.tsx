@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import type { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { vi } from 'vitest';
 
 export function setup(jsx: React.ReactElement) {
   return {
@@ -26,3 +27,6 @@ export function renderWithQueryClient(ui: React.ReactNode) {
     <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>
   );
 }
+
+global.URL.createObjectURL = vi.fn(() => 'blob:mock-url');
+global.URL.revokeObjectURL = vi.fn();

@@ -1,63 +1,62 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { useSelectedItemsStore } from '../../store/itemStore';
 import SelectedItemsBar from './SelectedItemsBar';
-import * as itemStore from '../../store/itemStore';
-import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Character } from '../cardList/types';
 
-vi.mock('../../store/itemStore');
-
-interface SelectedItemsState {
-  selectedItems: Record<string, { name: string; status: string; url: string }>;
-  clearSelection: () => void;
-}
-
-const mockItems: SelectedItemsState['selectedItems'] = {
-  a1: { name: 'Rick', status: 'Alive', url: 'https://rick.com' },
-  b2: { name: 'Morty', status: 'Dead', url: 'https://morty.com' },
+const mockCharacter: Character = {
+  id: 1,
+  name: 'Test Character',
+  status: 'Alive',
+  species: 'Human',
+  type: '',
+  gender: 'Male',
+  origin: { name: 'Earth', url: '' },
+  location: { name: 'Mars', url: '' },
+  image: '',
+  episode: [],
+  url: 'https://example.com/test-character',
+  created: '2023-01-01T00:00:00Z',
 };
 
-beforeAll(() => {
-  global.URL.createObjectURL = vi.fn(() => 'blob:test-url');
-  global.URL.revokeObjectURL = vi.fn();
-});
-
 describe('SelectedItemsBar', () => {
-  let clearSelectionMock: ReturnType<typeof vi.fn>;
-  const mockedUseSelectedItemsStore =
-    itemStore.useSelectedItemsStore as unknown as ReturnType<typeof vi.fn>;
-
   beforeEach(() => {
-    clearSelectionMock = vi.fn();
-
-    mockedUseSelectedItemsStore.mockImplementation(
-      (selector: (state: SelectedItemsState) => unknown) =>
-        selector({
-          selectedItems: mockItems,
-          clearSelection: clearSelectionMock,
-        })
-    );
+    useSelectedItemsStore.setState({
+      selectedItems: { [mockCharacter.id]: mockCharacter },
+    });
   });
 
-  it('renders selected item count', () => {
+  afterEach(() => {
+    useSelectedItemsStore.setState({ selectedItems: {} });
+  });
+
+  it('renders with selected items', () => {
     render(<SelectedItemsBar />);
-    expect(screen.getByText('2 items selected')).toBeInTheDocument();
+    expect(screen.getByText('1 item selected')).toBeInTheDocument();
+    expect(screen.getByText('Unselect all')).toBeInTheDocument();
+    expect(screen.getByText('Download')).toBeInTheDocument();
   });
 
-  it('calls clearSelection on button click', () => {
+  it('clears selection on "Unselect all"', () => {
     render(<SelectedItemsBar />);
-    const button = screen.getByText(/Unselect all/i);
-    fireEvent.click(button);
-    expect(clearSelectionMock).toHaveBeenCalled();
+    fireEvent.click(screen.getByText('Unselect all'));
+    expect(useSelectedItemsStore.getState().selectedItems).toEqual({});
   });
 
-  it('returns null if no items selected', () => {
-    mockedUseSelectedItemsStore.mockImplementation(
-      (selector: (state: SelectedItemsState) => unknown) =>
-        selector({
-          selectedItems: {},
-          clearSelection: vi.fn(),
-        })
-    );
-    const { container } = render(<SelectedItemsBar />);
-    expect(container.firstChild).toBeNull();
+  it('generates download link with CSV', () => {
+    render(<SelectedItemsBar />);
+    const downloadButton = screen.getByText('Download');
+    fireEvent.click(downloadButton);
+
+    const downloadLink = screen.getByTestId('download-link');
+    expect(downloadLink).toHaveAttribute('href');
+    expect(downloadLink).toHaveAttribute('download', '1_items.csv');
+  });
+
+  it('does not render when no selected items', () => {
+    useSelectedItemsStore.setState({ selectedItems: {} });
+    render(<SelectedItemsBar />);
+    expect(screen.queryByText(/selected/i)).not.toBeInTheDocument();
   });
 });

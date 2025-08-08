@@ -7,6 +7,7 @@ export default defineConfig({
     setupFiles: './src/test-utils/test-utils.tsx',
     environment: 'jsdom',
     globals: true,
+
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],

@@ -14,4 +14,14 @@ describe('Router', () => {
 
     expect(screen.getByText(/about/i)).toBeInTheDocument();
   });
+
+  it('renders 404Page on ', () => {
+    const testRouter = createMemoryRouter(router.routes, {
+      initialEntries: ['/404'],
+    });
+
+    render(<RouterProvider router={testRouter} />);
+
+    expect(screen.getByText(/404/i)).toBeInTheDocument();
+  });
 });
