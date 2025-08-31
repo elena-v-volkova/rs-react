@@ -1,4 +1,4 @@
-import { use, useEffect } from 'react';
+import { use, useEffect, useMemo } from 'react';
 import Card from './card/Card';
 import './style.css';
 import fetchCountries from '../../api/fetchCountries';
@@ -14,13 +14,15 @@ export default function CardList() {
     setData(entries);
   }, [entries, setData]);
 
-  return (
-    <ul className="countries-list">
-      {entries.map(([name, info]) => (
-        <li key={name}>
-          <Card name={name} countryData={info} />
+  const listItems = useMemo(
+    () =>
+      entries.map(([countryName, countryInfo]) => (
+        <li key={countryName}>
+          <Card name={countryName} countryData={countryInfo} />
         </li>
-      ))}
-    </ul>
+      )),
+    [entries]
   );
+
+  return <ul className="countries-list">{listItems}</ul>;
 }

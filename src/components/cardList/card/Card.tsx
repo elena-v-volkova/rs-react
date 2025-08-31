@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { FLAG_API_URL, FLAG_STYLE_DEFAULT } from '../../../constants/constants';
 import type { CountryData } from '../../../types/types';
 
@@ -12,36 +12,49 @@ type CardProps = {
   countryData: CountryData;
 };
 
-export default function Card({ name, countryData }: CardProps) {
-  const countryCode = countryData.iso_code;
-  const yearData = getDataByYear(countryData.data ?? []);
+function Card({ name, countryData }: CardProps) {
   const [showTable, setShowTable] = useState(false);
 
-  function handleClick() {
-    setShowTable(!showTable);
-  }
+  const countryCode = countryData.iso_code;
+
+  const yearData = useMemo(
+    () => getDataByYear(countryData.data ?? []),
+    [countryData.data]
+  );
+
+  const flagSrc = useMemo(() => {
+    if (!countryCode) return '/not_available.jpg';
+    return `${FLAG_API_URL}${countryCode.slice(0, -1)}${FLAG_STYLE_DEFAULT}`;
+  }, [countryCode]);
+
+  const toggleTable = useCallback(() => {
+    setShowTable((prev) => !prev);
+  }, []);
+
+  const handleImgError = useCallback(
+    (event: React.SyntheticEvent<HTMLImageElement>) => {
+      event.currentTarget.src = '/not_available.jpg';
+    },
+    []
+  );
 
   return (
     <span>
-      {countryCode ? (
-        <img
-          src={FLAG_API_URL + countryCode.slice(0, -1) + FLAG_STYLE_DEFAULT}
-          alt="country flag"
-        />
-      ) : (
-        <img
-          src="/not_available.jpg"
-          alt="not available flag"
-          className="flag"
-        />
-      )}
+      <img
+        className="flag"
+        src={flagSrc}
+        alt="country flag"
+        onError={handleImgError}
+      />
 
       <h2>{name}</h2>
-      <p>population: {yearData.population || 'N/A'}</p>
-      <p>ISO code: {countryCode || 'N/A'}</p>
-      <button onClick={handleClick}>Detailed info</button>
+      <p>population: {yearData.population ?? 'N/A'}</p>
+      <p>ISO code: {countryCode ?? 'N/A'}</p>
+
+      <button onClick={toggleTable}>Detailed info</button>
+
       {showTable && (
-        <Modal onClose={() => setShowTable(false)}>
+        <Modal onClose={toggleTable}>
           <h3>{name} — detailed info</h3>
           <DataList country={name} />
         </Modal>
@@ -49,3 +62,5 @@ export default function Card({ name, countryData }: CardProps) {
     </span>
   );
 }
+
+export default memo(Card);
