@@ -1,4 +1,7 @@
-export type CO2CountryData = Record<string, number>;
+export type CO2CountryData = {
+  year: number;
+  [key: string]: number | null;
+};
 
 export type CountryData = {
   iso_code?: string;
